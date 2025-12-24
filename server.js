@@ -10,12 +10,19 @@ app.use(express.urlencoded({extended: true}));
 //2: Sessions
 //3 bssr, Views codes
 app.set("views", "views");
-app.set("views engine", "ejs");
+app.set("view engine", "ejs");
 
 
 //4 Routing and build frontent
 app.get("/", (req, res) => {
-    res.end("Hello world!");
+    res.render("index");
+});
+app.post("/create-item", (req, res) => {
+    // console.log(req.body);
+    // res.json({message: "success"});
+    // res.send("Ma'lumot qo'shildi");
+    // res.redirect("/");
+    
 });
 
 app.get("/about", (req, res) => {
