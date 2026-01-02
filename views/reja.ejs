@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Reja</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+    <!-- TOASTR MIN CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
   </head>
   <body class="bg-dark text-white">
     <div class="container d-flex flex-column align-items-center">
@@ -12,22 +14,23 @@
         <div class="col-md-8 mt-5">
             <div class="card border-0">
               <div class="card-body">
-                  <form action="/create-item" method="POST">
+                  <form action="/create-item" method="POST" id="form">
                       <div class="input-group mb-3">
-                          <input type="text" class="form-control" placeholder="Ma'lumotni kiriting" aria-label="Recipient’s username" aria-describedby="button-addon2" name="reja">
+                          <input type="text" class="form-control" placeholder="Ma'lumotni kiriting" aria-label="Recipient’s username" aria-describedby="button-addon2" name="reja"
+                          id="create-item">
                           <button class="btn btn-outline-success" type="submit" id="button-addon2">Rejani qo'shish</button>
                       </div>
                   </form>
               </div>
             </div>
 
-            <ul class="list-group mt-3 list-group-item-success">
+            <ul class="list-group mt-3 list-group-item-success" id="item-list">
               <% items.map((item) => {%>
                 <li class="list-group-item d-flex justify-content-between align-items-center">
                   <%= item.reja %>
                   <div>
-                    <button class="btn btn-outline-primary" data-id="<%= item._id %>">Edit</button>
-                    <button class="btn btn-outline-danger" data-id="<%= item._id %>">Delete</button>
+                    <button class="btn btn-outline-primary btn-edit" id="edit-btn" data-id="<%= item._id %>">Edit</button>
+                    <button class="btn btn-outline-danger btn-delete" id="delete-btn" data-id="<%= item._id %>">Delete</button>
                   </div>
                 </li>
               <% }); %>              
@@ -35,6 +38,17 @@
         </div>
     </div>
 
+    <div id="modal"></div>
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
+    <!-- jQueryJS MIN JS -->
+     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <!-- AXIOS MIN JS -->
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <!-- TOASTR MIN JS -->
+     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+     <!-- SCRIPT JS -->
+      <script src="/js/script.js"></script>
+
   </body>
 </html>
