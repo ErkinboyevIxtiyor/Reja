@@ -1,6 +1,5 @@
 const http = require("http");
 const mongodb = require('mongodb');
-let db;
 
 const url = "mongodb+srv://max:EA2ZlPIuRcja27VH@cluster0.w8ebtog.mongodb.net/Reja";
 

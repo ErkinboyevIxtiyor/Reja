@@ -1,6 +1,6 @@
 const createInput = document.getElementById("create-item");
 const form = document.getElementById("form");
-const modal = document.getElementById("modal");
+const btnDeleteAll = document.getElementById("btn-delete-all");
 
 const itemTemplate = (item) => {
   return `<li class="list-group-item d-flex justify-content-between align-items-center">
@@ -15,14 +15,12 @@ const itemTemplate = (item) => {
 document.addEventListener("click", (e) => {
   const btnEdit = e.target.classList.contains("btn-edit");
   const btnDelete = e.target.classList.contains("btn-delete");
-
+  const getId = e.target.getAttribute("data-id");
   if (btnDelete) {
-    const getId = e.target.getAttribute("data-id");
     if (confirm("Ochirishni istaysizmi?")) {
       axios
         .post("/delete-item", { id: getId })
         .then((response) => {
-          console.log(response);
           if (response.data.state == "success") {
             e.target.parentElement.parentElement.remove();
             toastr.success("Muvaffaqiyatli ochirildi!");
@@ -35,7 +33,29 @@ document.addEventListener("click", (e) => {
   }
 
   if (btnEdit) {
-    const getId = e.target.getAttribute("data-id");
+    let item_text =
+      e.target.parentElement.parentElement.querySelector(
+        "#item-text"
+      ).innerHTML;
+    let edit_prompt = prompt("O'zgartirishni kiriting", item_text);
+    if (edit_prompt) {
+      axios
+        .post("/update-item", {
+          id: getId,
+          text: edit_prompt,
+        })
+        .then((response) => {
+          if (response.data.state == "success") {
+            toastr.success("Ma'lumot muvafiqiyatli o'zgartirildi");
+            e.target.parentElement.parentElement.querySelector(
+              "#item-text"
+            ).innerHTML = edit_prompt;
+          }
+        })
+        .catch((error) => {
+          console.log("Error:", error);
+        });
+    }
   }
 });
 
@@ -55,5 +75,19 @@ form.addEventListener("submit", (e) => {
     .catch((err) => {
       console.log("Err:", err);
       toastr.error("Sorov yuborishda xatolik yuz berdi!");
+    });
+});
+
+const deleteAll = btnDeleteAll.addEventListener("click", () => {
+  axios
+    .post("/delete-all-item", { delete: true })
+    .then((response) => {
+      if (response.data.state == "success") {
+        alert("Hamma ma'lumot o'chirildi!");
+        document.location.reload();
+      }
+    })
+    .catch((err) => {
+      console.log("Error:", err);
     });
 });
